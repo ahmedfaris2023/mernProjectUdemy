@@ -1,5 +1,5 @@
 import { Button, Paper, TextField } from "@mui/material";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useRef } from "react";
 import { Student } from "../utils/data";
 
 interface Props {
@@ -9,6 +9,13 @@ interface Props {
 
 export const AddStudent = ({ setStudent, students }: Props) => {
   let formData = { id: 0, name: "", age: 0, email: "", class: "" };
+  const nameRef = useRef<HTMLInputElement>(null);
+  const ageRef = useRef<HTMLInputElement>(null);
+
+  const mailRef = useRef<HTMLInputElement>(null);
+
+  const classRef = useRef<HTMLInputElement>(null);
+
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     formData.name = e.target.value;
   };
@@ -23,7 +30,20 @@ export const AddStudent = ({ setStudent, students }: Props) => {
   };
   const handleSubmit = () => {
     setStudent([...students, formData]);
+    if (nameRef.current) {
+      nameRef.current.value = "";
+    }
+    if (ageRef.current) {
+      ageRef.current.value = "";
+    }
+    if (mailRef.current) {
+      mailRef.current.value = "";
+    }
+    if (classRef.current) {
+      classRef.current.value = "";
+    }
   };
+
   return (
     <Paper
       sx={{
@@ -36,6 +56,7 @@ export const AddStudent = ({ setStudent, students }: Props) => {
       }}
     >
       <TextField
+        inputRef={nameRef}
         onChange={handleNameChange}
         id="outlined-basic"
         label="Full Name"
@@ -43,6 +64,7 @@ export const AddStudent = ({ setStudent, students }: Props) => {
         variant="outlined"
       />
       <TextField
+        inputRef={ageRef}
         onChange={handleAgeChange}
         id="Age"
         label="age"
@@ -50,6 +72,7 @@ export const AddStudent = ({ setStudent, students }: Props) => {
         variant="outlined"
       />
       <TextField
+        inputRef={mailRef}
         onChange={handleEmailChange}
         id="outlined-basic"
         label="Email"
@@ -57,6 +80,7 @@ export const AddStudent = ({ setStudent, students }: Props) => {
         variant="outlined"
       />
       <TextField
+        inputRef={classRef}
         onChange={handleClassChange}
         id="outlined-basic"
         label="Class Name"
